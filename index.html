@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Idea Sprints</title>
+<style>
+:root{--bg:#f3f7f0;--card:#fff;--ink:#22332a;--mute:#5c6b62;--dark:#14432b;--mid:#1f6b43;--moss:#97bc62;--amber:#f2a900;--red:#c0392b;--line:#d6e2d3;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root:not([data-theme="light"]){}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Calibri,Arial,sans-serif}
+h1,h2,h3{font-family:Cambria,Georgia,serif;margin:0 0 8px;color:var(--mid)}
+header{background:var(--dark);color:#fff;padding:14px 16px}
+header h1{color:#fff;font-size:24px;margin:0}header p{margin:2px 0 0;color:var(--moss);font-size:14px}
+nav{display:flex;gap:6px;overflow-x:auto;padding:10px 12px;background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+nav button{flex:0 0 auto;border:0;background:transparent;color:var(--ink);padding:8px 14px;border-radius:20px;font:inherit;font-weight:600;cursor:pointer}
+nav button.on{background:var(--mid);color:#fff}
+main{max-width:860px;margin:0 auto;padding:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px}
+.btn{background:var(--mid);color:#fff;border:0;border-radius:10px;padding:11px 16px;font:inherit;font-weight:700;cursor:pointer}
+.btn.alt{background:var(--amber);color:#222}.btn.red{background:var(--red)}.btn.ghost{background:transparent;color:var(--mid);border:1px solid var(--mid)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+input,select,textarea{width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;font:inherit;background:var(--bg);color:var(--ink);margin:4px 0 10px}
+label{font-weight:600;font-size:14px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.tag{display:inline-block;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:700;background:var(--line);color:var(--ink)}
+.sev-Critical,.sev-High{background:var(--red);color:#fff}.sev-Medium{background:var(--amber);color:#222}.sev-Low{background:var(--moss);color:#123}
+.st{display:flex;gap:4px;margin:8px 0}.st i{flex:1;height:6px;border-radius:3px;background:var(--line)}.st i.d{background:var(--mid)}
+img.th{width:64px;height:64px;object-fit:cover;border-radius:10px;float:left;margin-right:12px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.stats div{text-align:center;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px}
+.stats b{display:block;font:700 26px Cambria,serif;color:var(--mid)}
+.warn{position:fixed;inset:0;background:rgba(120,15,10,.96);color:#fff;display:flex;align-items:center;justify-content:center;padding:20px;z-index:20}
+.warn>div{max-width:420px;text-align:center}.warn h2{color:#fff;font-size:28px}
+.note{font-size:13px;color:var(--mute)}.banner{background:var(--amber);color:#222;padding:8px 16px;font-weight:700;text-align:center}
+table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:8px 6px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.scroll{overflow-x:auto}svg{width:100%;height:auto;background:var(--bg);border-radius:12px;border:1px solid var(--line)}
+[hidden]{display:none!important}
+
+/* ===== ANIMATIONS ===== */
+@keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:scale(0)}to{opacity:.85;transform:scale(1)}}
+@keyframes pulse{0%{transform:scale(1);opacity:.85}50%{transform:scale(1.5);opacity:.4}100%{transform:scale(1);opacity:.85}}
+@keyframes fill{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes flow{0%{background-position:0 50%}100%{background-position:200% 50%}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@keyframes scan{0%{top:0}100%{top:100%}}
+@keyframes zoom{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:none}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-7px)}40%{transform:translateX(7px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+@keyframes glow{0%,100%{box-shadow:inset 0 0 60px rgba(255,60,40,.25)}50%{box-shadow:inset 0 0 140px rgba(255,60,40,.6)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+header{background:linear-gradient(110deg,#14432b,#1f6b43,#14432b);background-size:200% 100%;animation:flow 8s linear infinite}
+header h1::before{content:"\1F33E ";display:inline-block;animation:float 2.4s ease-in-out infinite}
+header p{animation:up .7s .2s both}
+.card,.stats div{animation:up .5s cubic-bezier(.2,.8,.2,1) both}
+.btn{transition:transform .15s,box-shadow .15s,filter .15s}
+.btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 6px 14px rgba(0,0,0,.2);filter:brightness(1.08)}
+.btn:active:not(:disabled){transform:scale(.96)}
+nav button{transition:background .25s,color .25s,transform .15s}nav button:hover{transform:translateY(-1px)}
+nav button.on{animation:zoom .3s both}
+.st i.d{transform-origin:left;animation:fill .8s ease-out both}
+.st i:nth-child(2).d{animation-delay:.15s}.st i:nth-child(3).d{animation-delay:.3s}.st i:nth-child(4).d{animation-delay:.45s}
+.pin{transform-box:fill-box;transform-origin:center;animation:pop .5s cubic-bezier(.3,1.6,.5,1) both}
+.pin.pend{animation:pop .5s cubic-bezier(.3,1.6,.5,1) both,pulse 2s 1s ease-in-out infinite}
+#pv{position:relative;display:inline-block;overflow:hidden;border-radius:10px}
+#pv img{animation:zoom .4s both}
+#pv.scan::after{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:var(--moss);box-shadow:0 0 14px 4px var(--moss);animation:scan 1.1s linear infinite}
+#pv.scan img{filter:brightness(.8)}
+.spin{display:inline-block;width:16px;height:16px;border:3px solid var(--line);border-top-color:var(--mid);border-radius:50%;animation:spin .8s linear infinite;vertical-align:middle;margin-right:6px}
+.warn{animation:fade .25s both,glow 1.6s ease-in-out infinite}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.warn>div{animation:zoom .35s cubic-bezier(.2,.9,.3,1.2) both}
+.warn h2{animation:shake .6s .3s both}
+.banner{animation:up .4s both}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+:root{--bg:#fff8d6;--card:#fffdf0;--ink:#3b3410;--mute:#75693a;--dark:#f5d94a;--mid:#8a5a00;--moss:#e6b800;--amber:#f2a900;--line:#f0dc8a}
+header{background:linear-gradient(110deg,#ffe98a,#fff3b0,#ffe98a)!important;background-size:200% 100%;color:#3b3410!important;border-bottom:1px solid #f0dc8a}
+header h1{color:#5a4600!important}header p{color:#7a6a2a!important}
+header h1::before{content:"\1F31F "}
+nav{box-shadow:0 2px 8px rgba(160,120,0,.08)}nav button.on{background:#8a5a00;color:#fff}
+.card{box-shadow:0 2px 10px rgba(160,120,0,.10)}
+.btn{background:#8a5a00;color:#fff}.btn.alt{background:#f2a900;color:#2b2200}.btn.ghost{color:#8a5a00;border-color:#8a5a00;background:transparent}
+img.th{width:76px;height:76px}
+</style></head><body>
+<header style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><div style="flex:1;min-width:180px"><h1>Idea Sprints</h1><p id="tg">Snap a photo. Get help. Stay safe.</p></div><select id="lg" aria-label="Language" style="width:auto;margin:0" onchange="setLg(this.value)"><option value="en">English</option><option value="ta">தமிழ்</option><option value="hi">हिन्दी</option><option value="te">తెలుగు</option><option value="ml">മലയാളം</option><option value="kn">ಕನ್ನಡ</option><option value="bn">বাংলা</option><option value="mr">मराठी</option><option value="gu">ગુજરાતી</option><option value="pa">ਪੰਜਾਬੀ</option><option value="or">ଓଡ଼ିଆ</option><option value="ur">اردو</option></select></header>
+<div id="off" class="banner" hidden>Offline: reports are saved on this phone and will sync when you are back online</div>
+<nav id="nav"></nav><main id="app"></main>
+<div id="ov" class="warn" hidden></div>
+<script>
+const CATS={"Broken road":"PWD (Roads)","Water leak":"Water Board","Illegal dumping":"Panchayat (Sanitation)","Power fault":"Electricity Board","Fire or accident":"Police / Emergency","Crime or safety":"Police","Other":"Panchayat"};
+const STAGES=["Reported","Acknowledged","In progress","Resolved"];
+const VILL=["Village A","Village B","Village C","Village D"];
+const $=s=>document.querySelector(s);
+const esc=t=>String(t).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function ld(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}
+function sv(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+let R=ld("is_reports",[]),Q=ld("is_queue",[]),N=ld("is_nums",[]),tab="report",cur={},sampleFn=null,canImg=false;
+const ESC_DAYS=3;
+function dist(a,b){const r=x=>x*Math.PI/180,dl=r(b.lat-a.lat),dg=r(b.lng-a.lng),h=Math.sin(dl/2)**2+Math.cos(r(a.lat))*Math.cos(r(b.lat))*Math.sin(dg/2)**2;return 12742000*Math.asin(Math.sqrt(h))}
+function isEsc(r){return r.stage<3&&(Date.now()-r.t)>ESC_DAYS*864e5}
+const TABS=[["report","Report"],["voice","Voice AI"],["near","Nearby"],["mine","My reports"],["dash","Authority"],["map","Transparency"],["shield","Scam Shield"]];
+function nav(){$("#nav").innerHTML=TABS.map(t=>`<button class="${tab==t[0]?"on":""}" data-t="${t[0]}">${tr(t[0],t[1])}</button>`).join("");
+ document.querySelectorAll("#nav button").forEach(b=>b.onclick=()=>{tab=b.dataset.t;render()})}
+function render(){nav();({report:vReport,voice:vVoice,near:vNear,mine:vMine,dash:vDash,map:vMap,shield:vShield})[tab]();if(tab==="mine")sendCard();window.scrollTo(0,0);anim()}
+function anim(){
+ document.querySelectorAll("main .card,.stats div").forEach((el,i)=>el.style.animationDelay=(i*70)+"ms");
+ if(matchMedia("(prefers-reduced-motion:reduce)").matches)return;
+ document.querySelectorAll(".stats b").forEach(b=>{const T=parseInt(b.textContent)||0;if(!T)return;const t0=performance.now();(function f(t){const k=Math.min(1,(t-t0)/700);b.textContent=Math.round(T*(1-Math.pow(1-k,3)));if(k<1)requestAnimationFrame(f)})(t0)})}
+function stats(){const p=R.filter(r=>r.stage<3).length;return `<div class="stats"><div><b>${R.length}</b>Reports</div><div><b>${p}</b>Pending</div><div><b>${R.length-p}</b>Resolved</div></div>`}
+function badge(r){return `<span class="tag sev-${r.sev}">${r.sev}</span> <span class="tag">${esc(r.cat)}</span> ${isEsc(r)?'<span class="tag sev-High">Escalated</span>':""}`}
+
+/* ---------- Report ---------- */
+function vReport(){
+ $("#app").innerHTML=stats()+`<div class="card" style="margin-top:14px"><h2>Report a problem</h2>
+ <label>1. Take a live photo</label><input type="file" id="ph" accept="image/*" capture="environment">
+ <div id="pv"></div>
+ <button class="btn" id="an" disabled>2. Detect with AI</button> <span class="note" id="anm"></span>
+ <div id="res" style="margin-top:12px"></div></div>
+ <div class="card" id="fm" hidden><h3>3. Confirm and send</h3>
+ <label>Issue type</label><select id="cat">${Object.keys(CATS).map(c=>`<option>${c}</option>`).join("")}</select>
+ <label>Description</label><textarea id="ds" rows="2" placeholder="Describe the problem"></textarea>
+ <div class="row"><button class="btn ghost" id="mic" hidden>Speak</button></div>
+ <label>Location</label><div class="row"><button class="btn ghost" id="gps">Use my GPS</button><select id="vl" style="flex:1">${VILL.map(v=>`<option>${v}</option>`).join("")}</select></div>
+ <p class="note" id="lc">No GPS yet. Pick a village or tap Use my GPS.</p>
+ <button class="btn alt" id="sb">Submit report</button> <span id="sm" class="note"></span></div>`;
+ const ph=$("#ph");
+ ph.onchange=()=>{const f=ph.files[0];if(!f)return;cur={file:f};const fr=new FileReader();fr.onload=()=>{const im=new Image();im.onload=()=>{const c=document.createElement("canvas"),s=120/Math.max(im.width,im.height);c.width=im.width*s;c.height=im.height*s;c.getContext("2d").drawImage(im,0,0,c.width,c.height);cur.th=c.toDataURL("image/jpeg",.6);$("#pv").innerHTML=`<img src="${cur.th}" class="th" alt="preview" style="width:120px;height:auto;float:none">`};im.src=fr.result};fr.readAsDataURL(f);$("#an").disabled=false;$("#fm").hidden=false;$("#res").innerHTML=""};
+ $("#an").onclick=analyze;
+ $("#gps").onclick=()=>{if(!navigator.geolocation){$("#lc").textContent="GPS not available. Pick a village.";return}$("#lc").textContent="Locating...";navigator.geolocation.getCurrentPosition(p=>{cur.lat=p.coords.latitude;cur.lng=p.coords.longitude;$("#lc").textContent=`GPS locked: ${cur.lat.toFixed(4)}, ${cur.lng.toFixed(4)}`},()=>{$("#lc").textContent="GPS denied. Pick a village instead."},{timeout:8000,enableHighAccuracy:true})};
+ const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+ if(SR){const m=$("#mic");m.hidden=false;m.onclick=()=>{try{const r=new SR();r.lang=SRL[LG];r.onresult=e=>{$("#ds").value=e.results[0][0].transcript};r.start()}catch(e){m.hidden=true}}}
+ $("#sb").onclick=submit;
+}
+async function analyze(){
+ const out=$("#res"),b=$("#an");
+ if(!sampleFn||!canImg){out.innerHTML='<p class="note">AI detection is available when this page is opened inside Claude. Choose the issue type below.</p>';return}
+ b.disabled=true;$("#pv").classList.add("scan");out.innerHTML='<p><span class="spin"></span>Analyzing photo...</p>';
+ try{
+  const d=await sampleFn.json(`You are the vision model of a rural issue reporting app in India. Look at the photo. Return ONLY JSON: {"valid":boolean (true only if the photo shows a real civic problem or hazard),"category":one of ${JSON.stringify(Object.keys(CATS))},"severity":"Low"|"Medium"|"High"|"Critical","confidence":number 0-100,"summary":"one short sentence describing what you see"}`,{images:cur.file,modelTier:"quick"});
+  if(!d.valid){out.innerHTML=`<div class="card" style="border-color:var(--red)"><b>Report rejected</b><p>${esc(d.summary||"No valid civic issue found.")} Take a clear photo of the problem.</p></div>`;cur.rej=true}
+  else{cur.rej=false;cur.ai=d;$("#cat").value=CATS[d.category]?d.category:"Other";$("#ds").value=d.summary||"";
+   out.innerHTML=`<div class="card"><b>AI result:</b> ${esc(d.category)} <span class="tag sev-${esc(d.severity)}">${esc(d.severity)}</span> <span class="tag">${Math.round(d.confidence)}% confident</span><p>${esc(d.summary)}</p><p class="note">Routed to: <b>${esc(CATS[d.category]||CATS.Other)}</b>${d.confidence<70?" . Low confidence: please confirm the type below.":""}</p></div>`}
+ }catch(e){out.innerHTML=`<p class="note">AI unavailable (${esc(e&&e.code||"error")}). Choose the issue type below.</p>`}
+ b.disabled=false;$("#pv").classList.remove("scan");
+}
+function submit(){
+ if(cur.rej){$("#sm").textContent="Fix the photo first.";return}
+ if(!cur.th){$("#sm").textContent="Add a photo first.";return}
+ const cat=$("#cat").value,vi=$("#vl").selectedIndex,base={lat:12.9+vi*.02,lng:77.5+vi*.02};
+ const loc=cur.lat!=null?{lat:cur.lat,lng:cur.lng}:{lat:base.lat+(Math.random()-.5)*.004,lng:base.lng+(Math.random()-.5)*.004};
+ const dup=R.find(r=>r.cat==cat&&r.stage<3&&dist(r,loc)<200);
+ if(dup){dup.votes=(dup.votes||1)+1;sv("is_reports",R);$("#sm").textContent=`Same issue already reported nearby (${dup.id}). Merged and priority raised.`;return}
+ const rep={id:"R"+Date.now().toString(36).toUpperCase(),cat,sev:cur.ai?.severity||"Medium",conf:cur.ai?.confidence||null,desc:$("#ds").value||cat,dept:CATS[cat],lat:loc.lat,lng:loc.lng,village:cur.lat!=null?"GPS":VILL[vi],th:cur.th,stage:0,t:Date.now(),votes:1};
+ if(!navigator.onLine){Q.push(rep);sv("is_queue",Q);$("#sm").textContent="Offline: saved. It will sync automatically.";return}
+ R.unshift(rep);sv("is_reports",R);cur={};tab="mine";render();
+}
+addEventListener("online",()=>{$("#off").hidden=true;if(Q.length){R=Q.concat(R);Q=[];sv("is_reports",R);sv("is_queue",Q);render()}});
+addEventListener("offline",()=>{$("#off").hidden=false});
+
+/* ---------- My reports / Authority ---------- */
+function timeline(r){return `<div class="st">${STAGES.map((s,i)=>`<i class="${i<=r.stage?"d":""}" title="${s}"></i>`).join("")}</div><span class="note">${STAGES[r.stage]}</span>`}
+function vMine(){
+ $("#app").innerHTML=stats()+`<div style="margin-top:14px">`+(R.length?R.map(r=>`<div class="card" style="overflow:hidden"><img class="th" src="${r.th}" alt=""><b>${esc(r.desc)}</b><br>${badge(r)}<br><span class="note">${esc(r.id)} . ${esc(r.village)} . to ${esc(r.dept)}${r.votes>1?" . "+r.votes+" reports merged":""}</span>${timeline(r)}</div>`).join(""):'<div class="card">No reports yet. Go to Report and submit one, or load demo data below.</div>')+`</div><button class="btn ghost" id="dm">Load demo data</button> <button class="btn ghost" id="cl">Clear all</button>`;
+ $("#dm").onclick=demoAll;$("#cl").onclick=()=>{R=[];sv("is_reports",R);render()};
+}
+function demo(){const c=Object.keys(CATS),s=["Low","Medium","High","Critical"];
+ for(let i=0;i<10;i++){const v=i%4;R.push({id:"D"+i,cat:c[i%5],sev:s[i%4],desc:c[i%5]+" reported near "+VILL[v],dept:CATS[c[i%5]],lat:12.9+v*.02+Math.random()*.005,lng:77.5+v*.02+Math.random()*.005,village:VILL[v],th:demoImg(c[i%5]),stage:i%4,t:Date.now()-i*864e5,votes:1})}
+ sv("is_reports",R);render()}
+function vDash(){
+ const dp=[...new Set(Object.values(CATS))];
+ $("#app").innerHTML=stats()+`<div class="card" style="margin-top:14px"><h2>Authority dashboard</h2><div class="row"><select id="fd" style="flex:1"><option value="">All departments</option>${dp.map(d=>`<option>${d}</option>`).join("")}</select><select id="fs" style="flex:1"><option value="">All severity</option><option>Critical</option><option>High</option><option>Medium</option><option>Low</option></select></div><div class="scroll"><table id="tb"></table></div><p class="note">Reports unresolved for ${ESC_DAYS}+ days are marked Escalated to a senior officer.</p></div>`;
+ const draw=()=>{const d=$("#fd").value,s=$("#fs").value;const o={Critical:0,High:1,Medium:2,Low:3};
+  const L=R.filter(r=>(!d||r.dept==d)&&(!s||r.sev==s)).sort((a,b)=>o[a.sev]-o[b.sev]||b.votes-a.votes);
+  $("#tb").innerHTML=L.length?`<tr><th>Issue</th><th>Priority</th><th>Status</th><th>Action</th></tr>`+L.map(r=>`<tr><td><b>${esc(r.cat)}</b><br><span class="note">${esc(r.village)} . ${esc(r.dept)}</span></td><td>${badge(r)}</td><td>${STAGES[r.stage]}</td><td>${r.stage<3?`<button class="btn" data-a="${esc(r.id)}">${["Acknowledge","Start work","Resolve"][r.stage]}</button>`:"Done"}</td></tr>`).join(""):"<tr><td>No reports match.</td></tr>";
+  document.querySelectorAll("[data-a]").forEach(b=>b.onclick=()=>{const r=R.find(x=>x.id==b.dataset.a);if(r){r.stage++;sv("is_reports",R);vDash()}})};
+ $("#fd").onchange=draw;$("#fs").onchange=draw;draw();
+}
+
+/* ---------- Map ---------- */
+function vMap(){
+ if(!R.length){$("#app").innerHTML='<div class="card"><h2>Transparency map</h2>No data yet. Submit a report or load demo data in My reports.</div>';return}
+ const la=R.map(r=>r.lat),ln=R.map(r=>r.lng),a0=Math.min(...la),a1=Math.max(...la),n0=Math.min(...ln),n1=Math.max(...ln);
+ const X=v=>30+(n1==n0?.5:(v-n0)/(n1-n0))*440,Y=v=>270-(a1==a0?.5:(v-a0)/(a1-a0))*240;
+ const pins=R.map((r,i)=>`<circle cx="${X(r.lng)}" cy="${Y(r.lat)}" r="9" class="pin${r.stage==3?"":" pend"}" style="animation-delay:${i*60}ms" fill="${r.stage==3?"#1f6b43":"#c0392b"}" opacity=".85"><title>${esc(r.cat)} - ${STAGES[r.stage]}</title></circle>`).join("");
+ const by={};R.forEach(r=>{(by[r.village]=by[r.village]||{p:0,d:0})[r.stage==3?"d":"p"]++});
+ const lb=Object.entries(by).sort((a,b)=>b[1].d-a[1].d);
+ $("#app").innerHTML=stats()+`<div class="card" style="margin-top:14px"><h2>Public transparency map</h2><svg viewBox="0 0 500 300" role="img" aria-label="Map of reports">${pins}</svg><p class="note"><span style="color:#c0392b">&#9679;</span> Pending &nbsp; <span style="color:#1f6b43">&#9679;</span> Resolved</p></div><div class="card"><h3>Village leaderboard</h3><table>${lb.map(([v,x])=>`<tr><td>${esc(v)}</td><td>${x.d} resolved</td><td>${x.p} pending</td></tr>`).join("")}</table></div>`;
+}
+
+/* ---------- Scam Shield ---------- */
+
+/* ---------- Nearby authorities + message (auto location) ---------- */
+let NA=ld("is_auth",[]),NP=null;
+const NAT=[["Emergency (police, fire, ambulance)","112"],["Cyber fraud helpline","1930"],["Ambulance","108"],["Fire","101"],["Women helpline","181"],["Child helpline","1098"]];
+const ndig=n=>{let d=String(n||"").replace(/\D/g,"");if(d.length===10)d="91"+d;return d};
+const gm=(q)=>NP?`https://www.google.com/maps/search/${encodeURIComponent(q)}/@${NP.lat},${NP.lng},14z`:`https://www.google.com/maps/search/${encodeURIComponent(q)}`;
+function vNear(){
+ $("#app").innerHTML=`<div class="card"><h2>Nearby authorities</h2><p class="note">Finds your location automatically, then ranks the authorities you have saved by distance and opens searches for others. Nothing is invented: only entries you add and verify are listed.</p>
+ <div class="row"><button class="btn" id="lo">Find my location</button><button class="btn ghost" id="dd">Load demo data</button><span id="ls" class="note"></span></div><div id="lk"></div></div>
+ <div class="card"><h3>Search authorities</h3><input id="qs" placeholder="Search by name, type or number" aria-label="Search authorities"><div id="nl"></div></div>
+ <div class="card"><h3>Message to an authority</h3>
+ <label>Issue</label><select id="mcat">${Object.keys(CATS).map(c=>`<option>${c}</option>`).join("")}</select>
+ <label>Details</label><textarea id="mds" rows="2">${esc(R[0]?R[0].desc:"")}</textarea>
+ <label>Send to</label><select id="mto"></select>
+ <label>Message (edit freely)</label><textarea id="mtx" rows="6"></textarea>
+ <div class="row" id="ml"></div><p class="note" id="mn">These buttons open your own phone apps. Nothing is sent until you press send there.</p></div>
+ <div class="card"><h3>Add a verified authority</h3><p class="note">Copy the phone or email from the office's official notice board or website.</p>
+ <input id="an" placeholder="Name, e.g. Sample Gram Panchayat office"><select id="at"><option>Gram Panchayat</option><option>Municipality</option><option>Corporation</option><option>Police station</option><option>Water board</option><option>Electricity board</option><option>Other</option></select>
+ <input id="ap" inputmode="tel" placeholder="Phone (optional)"><input id="ae" type="email" placeholder="Email (optional)">
+ <button class="btn" id="aa">Save (uses my location if found)</button> <span id="am" class="note"></span></div>
+ <div class="card"><h3>National helplines</h3>${NAT.map(n=>`<div class="row" style="margin-bottom:6px"><b style="min-width:70px">${n[1]}</b><span style="flex:1">${n[0]}</span><a class="btn" style="text-decoration:none" href="tel:${n[1]}">Call</a></div>`).join("")}<p class="note">Public national numbers. Confirm on the official site if unsure.</p></div>`;
+ $("#lo").onclick=nLoc;$("#dd").onclick=demoAll;$("#qs").oninput=nList;["mcat","mds","mto"].forEach(i=>$("#"+i).oninput=nMsg);$("#mtx").oninput=nLinks;$("#aa").onclick=nAdd;
+ nList();nMsg();nLoc();
+}
+function nLoc(){const s=$("#ls");if(!navigator.geolocation){s.textContent="Location is not available. Use the searches or add manually.";return}
+ s.textContent="Finding your location...";navigator.geolocation.getCurrentPosition(p=>{NP={lat:p.coords.latitude,lng:p.coords.longitude,acc:Math.round(p.coords.accuracy)};
+ s.textContent=`Found: ${NP.lat.toFixed(4)}, ${NP.lng.toFixed(4)} (accuracy about ${NP.acc} m)`;
+ $("#lk").innerHTML=`<p class="note">Search official offices near you (opens in a new tab). Verify the number before relying on it.</p><div class="row">`+[["Gram Panchayat office","gram panchayat office"],["Municipal office","municipal corporation office"],["Police station","police station"],["Water board","water supply board office"]].map(x=>`<a class="btn ghost" style="text-decoration:none" target="_blank" rel="noopener" href="${gm(x[1])}">${x[0]}</a>`).join("")+`<a class="btn ghost" style="text-decoration:none" target="_blank" rel="noopener" href="https://lgdirectory.gov.in/">LGD directory</a></div>`;
+ nList();nMsg()},e=>{s.textContent=e.code==1?"Location permission denied. Allow it in your browser, or add and search manually.":"Could not get location. Try again outdoors or enter it manually."},{enableHighAccuracy:true,timeout:12000})}
+function nList(){const q=($("#qs")?.value||"").toLowerCase().trim();
+ let L=NA.map((a,i)=>{const p=a.demo&&NP?{lat:NP.lat+a.dx,lng:NP.lng+a.dy}:a;return{...a,i,d:NP&&p.lat!=null?dist(NP,p):null}}).filter(a=>!q||(a.name+" "+a.type+" "+(a.phone||"")+" "+(a.email||"")).toLowerCase().includes(q));
+ L.sort((a,b)=>(a.d??1e12)-(b.d??1e12));
+ $("#nl").innerHTML=L.length?L.map((a,k)=>`<div class="card" style="margin:8px 0"><b>${esc(a.name)}</b> <span class="tag">${esc(a.type)}</span>${a.demo?'<span class="tag sev-Medium">DEMO</span>':""}${k==0&&a.d!=null&&!q?'<span class="tag sev-Low">Nearest</span>':""}<br><span class="note">${a.d!=null?(a.d/1000).toFixed(1)+" km away · ":""}${esc(a.phone||"no phone")} · ${esc(a.email||"no email")}</span><div class="row" style="margin-top:6px">${a.phone?`<a class="btn" style="text-decoration:none" href="tel:${esc(a.phone)}">Call</a>`:""}<button class="btn ghost" data-u="${a.i}">Message</button><button class="btn ghost" data-x="${a.i}">Remove</button></div></div>`).join(""):`<p class="note">${NA.length?"No match.":"No saved authorities yet. Use the searches above to find one, then add it below."}</p>`;
+ document.querySelectorAll("[data-u]").forEach(b=>b.onclick=()=>{$("#mto").value=b.dataset.u;nMsg();$("#mtx").scrollIntoView({behavior:"smooth"})});
+ document.querySelectorAll("[data-x]").forEach(b=>b.onclick=()=>{NA.splice(+b.dataset.x,1);sv("is_auth",NA);nList();nMsg()})}
+function nMsg(){const to=$("#mto"),keep=to.value;to.innerHTML=NA.length?NA.map((a,i)=>`<option value="${i}">${esc(a.name)}</option>`).join(""):'<option value="">Add an authority first</option>';if(keep&&NA[keep])to.value=keep;
+ const c=$("#mcat").value,loc=NP?`https://maps.google.com/?q=${NP.lat},${NP.lng}`:"(location not shared)";
+ $("#mtx").value=`Dear Sir/Madam,\n\nI would like to report a civic issue.\nIssue: ${c}\nDetails: ${$("#mds").value||c}\nLocation: ${loc}\nDate: ${new Date().toLocaleString()}\n\nKindly review and take appropriate action.\n\nReported via Idea Sprints (AI-assisted; please verify).`;nLinks()}
+function nLinks(){const a=NA[$("#mto").value],m=$("#mtx").value,e=encodeURIComponent(m);const B=(h,t,x)=>`<a class="btn ${x||""}" style="text-decoration:none" target="_blank" rel="noopener" href="${h}">${t}</a>`;
+ $("#ml").innerHTML=(a&&a.phone?B(`sms:${a.phone}?body=${e}`,"SMS")+B(`https://wa.me/${ndig(a.phone)}?text=${e}`,"WhatsApp"):"")+(a&&a.email?B(`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(a.email)}&su=${encodeURIComponent("Civic issue: "+$("#mcat").value)}&body=${e}`,"Gmail")+B(`mailto:${a.email}?subject=${encodeURIComponent("Civic issue: "+$("#mcat").value)}&body=${e}`,"Other email app","ghost"):"")+`<button class="btn ghost" id="cp">Copy</button>`+(a?"":'<span class="note">Pick or add an authority to enable SMS, WhatsApp and Email.</span>');
+ $("#cp").onclick=()=>{const t=$("#mtx");t.select();try{document.execCommand("copy");$("#mn").textContent="Copied. Paste it in any app."}catch(x){$("#mn").textContent="Select the text and copy it manually."}}}
+function nAdd(){const n=$("#an").value.trim(),p=$("#ap").value.trim(),e=$("#ae").value.trim(),m=$("#am");
+ if(!n||(!p&&!e)){m.textContent="Add a name and at least a phone or email.";return}
+ if(e&&!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e)){m.textContent="That email does not look valid.";return}
+ NA.push({name:n,type:$("#at").value,phone:p,email:e,lat:NP?NP.lat:null,lng:NP?NP.lng:null});sv("is_auth",NA);
+ ["an","ap","ae"].forEach(i=>$("#"+i).value="");m.textContent="Saved on this device.";nList();nMsg()}
+function ov(html){const o=$("#ov");o.innerHTML=`<div>${html}</div>`;o.hidden=false;o.querySelectorAll("[data-x]").forEach(b=>b.onclick=()=>{o.hidden=true;if(b.dataset.x=="rep")repNum()})}
+function repNum(){const n=(cur.flag||"").trim();if(n&&!N.includes(n)){N.push(n);sv("is_nums",N)}vShield()}
+function vShield(){
+ $("#app").innerHTML=`<div class="card"><h2>Scam Shield</h2><p class="note">Warns and adds friction before you pay. It does not block or reverse UPI payments, which are controlled by NPCI and banks.</p>
+ <label>Check a phone number</label><input id="pn" inputmode="tel" placeholder="Enter number">
+ <div class="row"><button class="btn" id="ck">Check number</button><button class="btn ghost" id="ad">Report as spam</button><span id="cm" class="note"></span></div></div>
+ <div class="card"><h3>Simulate a scam call, then a payment</h3><div class="row"><button class="btn red" id="sc">Incoming flagged call</button><button class="btn alt" id="up">Open UPI app</button></div><p class="note" id="fl">No flagged call in progress.</p></div>
+ <div class="card"><h3>Check a suspicious message (AI)</h3><textarea id="msg" rows="3" placeholder="Paste an SMS or WhatsApp message"></textarea><button class="btn" id="mc">Analyze message</button><div id="mr" style="margin-top:10px"></div></div>
+ <div class="card"><h3>Community spam list</h3>${N.length?N.map(n=>`<span class="tag" style="margin:2px">${esc(n)}</span>`).join(""):'<span class="note">Empty. Reported numbers appear here.</span>'}</div>`;
+ const num=()=>$("#pn").value.replace(/\s|-/g,"");
+ $("#ck").onclick=()=>{const n=num();if(!n){$("#cm").textContent="Enter a number.";return}$("#cm").innerHTML=N.includes(n)?'<b style="color:var(--red)">Flagged as spam by the community</b>':"Not reported yet. Stay careful."};
+ $("#ad").onclick=()=>{const n=num();if(!n){$("#cm").textContent="Enter a number.";return}if(!N.includes(n)){N.push(n);sv("is_nums",N)}vShield()};
+ $("#sc").onclick=()=>{cur.flag=num()||"Unknown caller";cur.call=Date.now();$("#fl").textContent="Flagged call active. Now try opening the UPI app.";ov(`<h2>Suspected scam call</h2><p>${esc(cur.flag)} looks like a scam. Never share OTP, PIN or card details. Banks never ask for them.</p><div class="row" style="justify-content:center"><button class="btn alt" data-x="ok">Hang up and continue</button><button class="btn ghost" style="color:#fff;border-color:#fff" data-x="rep">Report number</button></div>`)};
+ $("#up").onclick=()=>{if(cur.call&&Date.now()-cur.call<6e5)ov(`<h2>Stop. Are you being pressured?</h2><p>You had a flagged call minutes ago. Scammers rush you to pay.</p><label style="color:#fff">Payee name</label><input id="pp" placeholder="Who are you paying?"><label style="color:#fff">Amount</label><input id="pa" inputmode="numeric" placeholder="Amount"><div class="row" style="justify-content:center"><button class="btn alt" data-x="ok">Cancel payment</button><button class="btn ghost" style="color:#fff;border-color:#fff" data-x="rep">Report to 1930</button></div><p class="note" style="color:#fbb">Call a family member first. Report fraud on 1930 or cybercrime.gov.in.</p>`);else ov(`<h2>Payment screen</h2><p>No flagged call detected. Normal flow would continue here.</p><button class="btn alt" data-x="ok">Close</button>`)};
+ $("#mc").onclick=async()=>{const t=$("#msg").value.trim(),o=$("#mr");if(!t){o.textContent="Paste a message first.";return}
+  if(!sampleFn){showScam(localScam(t),"Checked with built-in rules (AI not available here)");return}
+  o.innerHTML='<span class="spin"></span>Analyzing...';
+  try{const d=await sampleFn.json(`You detect scams for rural Indian phone users. Analyze this message. Return ONLY JSON: {"scam":boolean,"risk":"Low"|"Medium"|"High","reasons":[max 3 short strings],"advice":"one short sentence"}\n\nMessage:\n"""${t.slice(0,2000)}"""`,{modelTier:"quick"});
+   o.innerHTML=`<b style="color:${d.scam?"var(--red)":"var(--mid)"}">${d.scam?"Likely scam":"Looks safe"}</b> <span class="tag sev-${esc(d.risk)}">${esc(d.risk)} risk</span><ul>${(d.reasons||[]).map(x=>`<li>${esc(x)}</li>`).join("")}</ul><p>${esc(d.advice||"")}</p>`}
+  catch(e){showScam(localScam(t),"AI unavailable, so built-in rules were used")}};
+}
+
+
+function localScam(t){const x=t.toLowerCase(),W=[["otp",2,"Asks for an OTP or PIN"],["pin",1,"Mentions a PIN"],["kyc",2,"Fake KYC or account update"],["blocked",2,"Threatens to block your account"],["suspend",2,"Threatens suspension"],["disconnect",2,"Threatens disconnection"],["urgent",1,"Creates false urgency"],["immediately",1,"Creates false urgency"],["within 1 hour",2,"Tight deadline pressure"],["congratulations",2,"Unexpected prize claim"],["lucky draw",2,"Lottery or lucky draw"],["you won",2,"Unexpected prize claim"],["processing fee",3,"Asks for an upfront fee"],["claim",1,"Asks you to claim something"],["click",1,"Pushes you to click a link"],["verify",1,"Asks you to verify details"],["gpay",1,"Asks for a UPI payment"],["upi",1,"Asks for a UPI payment"],["pay ",1,"Asks for payment"]];
+ let sc=0,rs=[];W.forEach(([k,w,r])=>{if(x.includes(k)){sc+=w;if(!rs.includes(r))rs.push(r)}});
+ if(/https?:\/\/\S+\.(xyz|top|click|info|ru|cc|link)\b/.test(x)||/bit\.ly|tinyurl/.test(x)){sc+=3;rs.push("Suspicious link")}
+ return{scam:sc>=4,risk:sc>=6?"High":sc>=3?"Medium":"Low",reasons:rs.slice(0,3),advice:sc>=4?"Do not click, pay or share any OTP. Report on 1930.":"No strong scam signs, but never share OTP or PIN."}}
+function showScam(d,src){$("#mr").innerHTML=`<b style="color:${d.scam?"var(--red)":"var(--mid)"}">${d.scam?"Likely scam":"Looks safe"}</b> <span class="tag sev-${esc(d.risk)}">${esc(d.risk)} risk</span><ul>${(d.reasons||[]).map(x=>`<li>${esc(x)}</li>`).join("")}</ul><p>${esc(d.advice||"")}</p><p class="note">${src}</p>`}
+
+/* ---------- Languages, voice AI, send all ---------- */
+const I18=Object.fromEntries(Object.entries({"en": ["Report", "Nearby", "My reports", "Authority", "Transparency", "Scam Shield", "Voice AI", "Send all issues", "Snap a photo. Get help. Stay safe.", "Tap to speak", "This sounds like a local problem. Open Report to add a photo and submit it.", "This sounds like a scam worry. Do not share your OTP or PIN. Open Scam Shield to check.", "Please tell me more: is it a local problem or a suspicious call?"], "ta": ["புகார்", "அருகில்", "என் புகார்கள்", "அதிகாரி", "வெளிப்படைத்தன்மை", "மோசடி கவசம்", "குரல் AI", "அனைத்து புகார்களையும் அனுப்பு", "படம் எடுங்கள். உதவி பெறுங்கள். பாதுகாப்பாக இருங்கள்.", "பேச தட்டவும்", "இது ஒரு உள்ளூர் பிரச்சினை போல் தெரிகிறது. புகார் பகுதியில் படத்துடன் சமர்ப்பிக்கவும்.", "இது மோசடி சந்தேகம் போல் தெரிகிறது. OTP அல்லது PIN பகிராதீர்கள். மோசடி கவசத்தில் சரிபார்க்கவும்.", "மேலும் சொல்லுங்கள்: இது உள்ளூர் பிரச்சினையா அல்லது சந்தேக அழைப்பா?"], "hi": ["शिकायत", "पास में", "मेरी शिकायतें", "प्राधिकरण", "पारदर्शिता", "स्कैम शील्ड", "वॉइस AI", "सभी शिकायतें भेजें", "फोटो लें। मदद पाएँ। सुरक्षित रहें।", "बोलने के लिए दबाएँ", "यह स्थानीय समस्या लगती है। शिकायत टैब में फोटो के साथ दर्ज करें।", "यह स्कैम की आशंका लगती है। OTP या पिन साझा न करें। स्कैम शील्ड में जाँचें।", "कृपया और बताएँ: यह स्थानीय समस्या है या संदिग्ध कॉल?"], "te": ["ఫిర్యాదు", "సమీపంలో", "నా ఫిర్యాదులు", "అధికారి", "పారదర్శకత", "స్కామ్ షీల్డ్", "వాయిస్ AI", "అన్ని ఫిర్యాదులు పంపండి", "ఫోటో తీయండి. సహాయం పొందండి. సురక్షితంగా ఉండండి.", "మాట్లాడటానికి నొక్కండి", "ఇది స్థానిక సమస్యలా ఉంది. ఫిర్యాదు ట్యాబ్‌లో ఫోటోతో సమర్పించండి.", "ఇది స్కామ్ అనుమానంలా ఉంది. OTP లేదా పిన్ చెప్పకండి. స్కామ్ షీల్డ్‌లో తనిఖీ చేయండి.", "దయచేసి మరింత చెప్పండి: ఇది స్థానిక సమస్యా లేక అనుమానాస్పద కాలా?"], "ml": ["പരാതി", "അടുത്തുള്ളവ", "എന്റെ പരാതികൾ", "അധികാരി", "സുതാര്യത", "സ്കാം ഷീൽഡ്", "വോയ്സ് AI", "എല്ലാ പരാതികളും അയയ്ക്കുക", "ഫോട്ടോ എടുക്കൂ. സഹായം നേടൂ. സുരക്ഷിതരായിരിക്കൂ.", "സംസാരിക്കാൻ അമർത്തുക", "ഇത് പ്രാദേശിക പ്രശ്നമായി തോന്നുന്നു. പരാതി ടാബിൽ ഫോട്ടോ സഹിതം സമർപ്പിക്കുക.", "ഇത് തട്ടിപ്പ് സംശയമായി തോന്നുന്നു. OTP/പിൻ പങ്കിടരുത്. സ്കാം ഷീൽഡിൽ പരിശോധിക്കുക.", "ദയവായി കൂടുതൽ പറയൂ: ഇത് പ്രാദേശിക പ്രശ്നമാണോ സംശയാസ്പദ കോളാണോ?"], "kn": ["ದೂರು", "ಹತ್ತಿರ", "ನನ್ನ ದೂರುಗಳು", "ಪ್ರಾಧಿಕಾರ", "ಪಾರದರ್ಶಕತೆ", "ಸ್ಕ್ಯಾಮ್ ಶೀಲ್ಡ್", "ಧ್ವನಿ AI", "ಎಲ್ಲಾ ದೂರುಗಳನ್ನು ಕಳುಹಿಸಿ", "ಫೋಟೋ ತೆಗೆಯಿರಿ. ಸಹಾಯ ಪಡೆಯಿರಿ. ಸುರಕ್ಷಿತವಾಗಿರಿ.", "ಮಾತನಾಡಲು ಒತ್ತಿ", "ಇದು ಸ್ಥಳೀಯ ಸಮಸ್ಯೆಯಂತೆ ಕಾಣುತ್ತದೆ. ದೂರು ಟ್ಯಾಬ್‌ನಲ್ಲಿ ಫೋಟೋ ಸಹಿತ ಸಲ್ಲಿಸಿ.", "ಇದು ಸ್ಕ್ಯಾಮ್ ಅನುಮಾನದಂತೆ ಕಾಣುತ್ತದೆ. OTP/ಪಿನ್ ಹಂಚಬೇಡಿ. ಸ್ಕ್ಯಾಮ್ ಶೀಲ್ಡ್‌ನಲ್ಲಿ ಪರಿಶೀಲಿಸಿ.", "ದಯವಿಟ್ಟು ಇನ್ನಷ್ಟು ಹೇಳಿ: ಇದು ಸ್ಥಳೀಯ ಸಮಸ್ಯೆಯೇ ಅಥವಾ ಅನುಮಾನಾಸ್ಪದ ಕರೆಯೇ?"], "bn": ["অভিযোগ", "কাছাকাছি", "আমার অভিযোগ", "কর্তৃপক্ষ", "স্বচ্ছতা", "স্ক্যাম শিল্ড", "ভয়েস AI", "সব অভিযোগ পাঠান", "ছবি তুলুন। সাহায্য নিন। নিরাপদ থাকুন।", "বলতে চাপুন", "এটি স্থানীয় সমস্যা মনে হচ্ছে। অভিযোগ ট্যাবে ছবিসহ জমা দিন।", "এটি স্ক্যামের সন্দেহ মনে হচ্ছে। OTP বা পিন দেবেন না। স্ক্যাম শিল্ডে যাচাই করুন।", "আরও বলুন: এটি স্থানীয় সমস্যা নাকি সন্দেহজনক কল?"], "mr": ["तक्रार", "जवळ", "माझ्या तक्रारी", "प्राधिकरण", "पारदर्शकता", "स्कॅम शील्ड", "व्हॉइस AI", "सर्व तक्रारी पाठवा", "फोटो काढा. मदत मिळवा. सुरक्षित राहा.", "बोलण्यासाठी दाबा", "ही स्थानिक समस्या वाटते. तक्रार टॅबमध्ये फोटोसह नोंदवा.", "हा स्कॅमचा संशय वाटतो. OTP किंवा पिन सांगू नका. स्कॅम शील्डमध्ये तपासा.", "कृपया अधिक सांगा: ही स्थानिक समस्या आहे की संशयास्पद कॉल?"], "gu": ["ફરિયાદ", "નજીક", "મારી ફરિયાદો", "સત્તામંડળ", "પારદર્શિતા", "સ્કેમ શીલ્ડ", "વૉઇસ AI", "બધી ફરિયાદો મોકલો", "ફોટો લો. મદદ મેળવો. સુરક્ષિત રહો.", "બોલવા માટે દબાવો", "આ સ્થાનિક સમસ્યા લાગે છે. ફરિયાદ ટૅબમાં ફોટા સાથે નોંધાવો.", "આ સ્કેમની શંકા લાગે છે. OTP કે પિન ન આપો. સ્કેમ શીલ્ડમાં તપાસો.", "કૃપા કરી વધુ કહો: આ સ્થાનિક સમસ્યા છે કે શંકાસ્પદ કૉલ?"], "pa": ["ਸ਼ਿਕਾਇਤ", "ਨੇੜੇ", "ਮੇਰੀਆਂ ਸ਼ਿਕਾਇਤਾਂ", "ਅਥਾਰਟੀ", "ਪਾਰਦਰਸ਼ਤਾ", "ਸਕੈਮ ਸ਼ੀਲਡ", "ਵੌਇਸ AI", "ਸਾਰੀਆਂ ਸ਼ਿਕਾਇਤਾਂ ਭੇਜੋ", "ਫੋਟੋ ਖਿੱਚੋ। ਮਦਦ ਲਓ। ਸੁਰੱਖਿਅਤ ਰਹੋ।", "ਬੋਲਣ ਲਈ ਦਬਾਓ", "ਇਹ ਸਥਾਨਕ ਸਮੱਸਿਆ ਲੱਗਦੀ ਹੈ। ਸ਼ਿਕਾਇਤ ਟੈਬ ਵਿੱਚ ਫੋਟੋ ਨਾਲ ਦਰਜ ਕਰੋ।", "ਇਹ ਸਕੈਮ ਦਾ ਸ਼ੱਕ ਲੱਗਦਾ ਹੈ। OTP ਜਾਂ ਪਿੰਨ ਨਾ ਦੱਸੋ। ਸਕੈਮ ਸ਼ੀਲਡ ਵਿੱਚ ਜਾਂਚੋ।", "ਕਿਰਪਾ ਕਰਕੇ ਹੋਰ ਦੱਸੋ: ਇਹ ਸਥਾਨਕ ਸਮੱਸਿਆ ਹੈ ਜਾਂ ਸ਼ੱਕੀ ਕਾਲ?"], "or": ["ଅଭିଯୋଗ", "ନିକଟରେ", "ମୋର ଅଭିଯୋଗ", "ପ୍ରାଧିକରଣ", "ସ୍ୱଚ୍ଛତା", "ସ୍କାମ୍ ସିଲ୍ଡ", "ଭଏସ୍ AI", "ସମସ୍ତ ଅଭିଯୋଗ ପଠାନ୍ତୁ", "ଫଟୋ ନିଅନ୍ତୁ। ସାହାଯ୍ୟ ନିଅନ୍ତୁ। ସୁରକ୍ଷିତ ରୁହନ୍ତୁ।", "କହିବାକୁ ଦବାନ୍ତୁ", "ଏହା ସ୍ଥାନୀୟ ସମସ୍ୟା ପରି ଲାଗୁଛି। ଅଭିଯୋଗ ଟ୍ୟାବ୍‌ରେ ଫଟୋ ସହ ଦାଖଲ କରନ୍ତୁ।", "ଏହା ସ୍କାମ୍ ସନ୍ଦେହ ପରି ଲାଗୁଛି। OTP ବା ପିନ୍ ଦିଅନ୍ତୁ ନାହିଁ। ସ୍କାମ୍ ସିଲ୍ଡରେ ଯାଞ୍ଚ କରନ୍ତୁ।", "ଦୟାକରି ଆଉ କହନ୍ତୁ: ଏହା ସ୍ଥାନୀୟ ସମସ୍ୟା ନା ସନ୍ଦେହଜନକ କଲ୍?"], "ur": ["شکایت", "قریب", "میری شکایات", "اتھارٹی", "شفافیت", "اسکیم شیلڈ", "وائس AI", "تمام شکایات بھیجیں", "تصویر لیں۔ مدد پائیں۔ محفوظ رہیں۔", "بولنے کے لیے دبائیں", "یہ مقامی مسئلہ لگتا ہے۔ شکایت ٹیب میں تصویر کے ساتھ درج کریں۔", "یہ اسکیم کا شبہ لگتا ہے۔ OTP یا پن نہ بتائیں۔ اسکیم شیلڈ میں جانچیں۔", "براہ کرم مزید بتائیں: یہ مقامی مسئلہ ہے یا مشکوک کال؟"]}).map(([l,a])=>[l,Object.fromEntries("report near mine dash map shield voice sendall tag mic rep scm unk".split(" ").map((k,i)=>[k,a[i]]))]));
+const LNM={"en": "English", "ta": "Tamil", "hi": "Hindi", "te": "Telugu", "ml": "Malayalam", "kn": "Kannada", "bn": "Bengali", "mr": "Marathi", "gu": "Gujarati", "pa": "Punjabi", "or": "Odia", "ur": "Urdu"},SRL={en:"en-IN",ta:"ta-IN",hi:"hi-IN",te:"te-IN",ml:"ml-IN",kn:"kn-IN",bn:"bn-IN",mr:"mr-IN",gu:"gu-IN",pa:"pa-IN",or:"or-IN",ur:"ur-IN"};
+let LG="en";
+const tr=(k,f)=>(I18[LG]&&I18[LG][k])||(I18.en[k])||f;
+function setLg(v){LG=v;document.documentElement.lang=v;document.documentElement.dir=v==="ur"?"rtl":"ltr";$("#tg").textContent=tr("tag");render()}
+function say(x){try{const u=new SpeechSynthesisUtterance(x);u.lang=SRL[LG];speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}}
+function vVoice(){
+ $("#app").innerHTML=`<div class="card"><h2>${tr("voice")}</h2><p class="note">Speak in ${LNM[LG]}. Your words are converted to text, you can correct them, then the assistant replies in ${LNM[LG]} and reads the reply aloud.</p>
+ <button class="btn" id="vm" style="font-size:18px;padding:14px 22px">🎤 ${tr("mic")}</button> <span class="note" id="vs" aria-live="polite"></span>
+ <label for="vt">What I heard (edit if wrong)</label><textarea id="vt" rows="3" placeholder="Speak or type"></textarea>
+ <button class="btn alt" id="va">Ask AI</button></div><div id="vr" aria-live="polite"></div>`;
+ $("#vm").onclick=vListen;$("#va").onclick=vAsk}
+function vListen(){const S=window.SpeechRecognition||window.webkitSpeechRecognition,st=$("#vs");
+ if(!S){st.textContent="Voice input is not supported in this browser (use Chrome or Edge). Please type.";return}
+ let r;try{r=new S()}catch(e){st.textContent="Voice input could not start. Please type.";return}
+ r.lang=SRL[LG];r.onstart=()=>st.textContent="Listening...";
+ r.onresult=e=>{$("#vt").value=e.results[0][0].transcript;st.textContent="Heard. Check the text, then tap Ask AI.";vAsk()};
+ const M={"not-allowed":"Microphone is blocked. Allow it in your browser or open this page in its own tab. You can also type.","service-not-allowed":"Microphone is blocked here. Allow it or type instead.","no-speech":"I heard nothing. Tap the mic and try again.","audio-capture":"No microphone found.","network":"Speech recognition needs internet."};
+ r.onerror=e=>{st.textContent=M[e.error]||"Voice failed ("+e.error+"). Please type."};
+ try{r.start()}catch(e){st.textContent="Could not start the microphone. Please type."}}
+async function vAsk(){const x=$("#vt").value.trim(),o=$("#vr");if(x.length<3){o.innerHTML='<div class="card">I did not catch that. Please speak or type.</div>';return}
+ let d=null,src="Basic assistant (AI is available when this page is opened inside Claude)";
+ if(sampleFn){o.innerHTML='<div class="card"><span class="spin"></span>Thinking...</div>';
+  try{d=await sampleFn.json(`You are a calm civic and scam-safety assistant for people in India. The user speaks ${LNM[LG]}. They said: ${JSON.stringify(x)}. Reply ONLY JSON: {"intent":"report"|"scam"|"other","category":one of ${JSON.stringify(Object.keys(CATS))} or "","reply":"1-3 short sentences written in ${LNM[LG]}, simple words, never ask for OTP/PIN/passwords, never claim anything was sent"}`,{modelTier:"quick"});src="AI reply"}catch(e){d=null}}
+ if(!d||!d.reply){const sc=/otp|pin\b|upi|call|bank|money|scam|kyc|lottery|refund|पैसे|कॉल|பணம்|మోసం|ফোন|ટ|ਕਾਲ/i.test(x),cv=/garbage|trash|road|pothole|light|water|leak|drain|power|electric|fire|குப்பை|சாலை|कचरा|सड़क|पानी|చెత్త|రోడ్|রাস্তা|ರಸ್ತೆ|റോഡ്|ਸੜਕ|ରାସ୍ତା/i.test(x);
+  d=sc&&!cv?{intent:"scam",reply:tr("scm")}:cv&&!sc?{intent:"report",reply:tr("rep"),category:/water|leak|पानी/i.test(x)?"Water leak":/light|power|electric/i.test(x)?"Power fault":/garbage|trash|कचरा|குப்பை/i.test(x)?"Illegal dumping":"Broken road"}:{intent:"other",reply:tr("unk")};src="Basic assistant (AI is available when this page is opened inside Claude)"}
+ window._vd={x,d};
+ o.innerHTML=`<div class="card"><p style="font-size:17px">${esc(d.reply)}</p><div class="row">${d.intent==="report"?'<button class="btn" onclick="vGo(\'report\')">'+tr("report")+'</button>':""}${d.intent==="scam"?'<button class="btn" onclick="vGo(\'shield\')">'+tr("shield")+'</button>':""}<button class="btn ghost" onclick="say(_vd.d.reply)">🔊 Listen</button></div><p class="note">${src}. Nothing is submitted until you confirm.</p></div>`;say(d.reply)}
+function vGo(k){const v=_vd;tab=k;render();if(k==="report")setTimeout(()=>{$("#ds").value=v.x;if(v.d.category&&CATS[v.d.category])$("#cat").value=v.d.category},30)}
+function allText(){return R.concat(Q).map((r,i)=>`${i+1}. [${r.sev}] ${r.cat}: ${r.desc} | ${r.village} | ${STAGES[r.stage]} | ID ${r.id}`).join("\n")}
+function sendCard(){const to=ld("is_to","demo-panchayat@example.com");
+ $("#app").insertAdjacentHTML("beforeend",`<div class="card"><h3>${tr("sendall")}</h3><label for="mto2">Recipient (demo email)</label><input id="mto2" type="email" value="${esc(to)}">
+ <div class="row"><a class="btn" id="sa" target="_blank" rel="noopener" style="text-decoration:none" href="#">${tr("sendall")} (Gmail)</a><button class="btn ghost" id="sc2">Copy list</button></div>
+ <p class="note" id="sn2">Opens Gmail in a new tab with every issue written out. Press Send in Gmail. A link cannot attach photos, so attach them in Gmail. This page cannot send email by itself, so nothing is marked as sent.</p></div>`);
+ $("#sa").onclick=e=>{const t=$("#mto2").value.trim(),n=$("#sn2");if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(t)){e.preventDefault();n.textContent="Enter a valid email address.";return}
+  if(!R.length&&!Q.length){e.preventDefault();n.textContent="No issues to send yet.";return}sv("is_to",t);
+  const b=allText(),body="Dear Sir/Madam,\n\nIssues reported via Idea Sprints (AI-assisted, please verify):\n\n"+b.slice(0,1500)+(b.length>1500?"\n...(list shortened)":"")+"\n\n(Photos: please attach from the app or your gallery.)\n\nRegards";
+  e.currentTarget.href="https://mail.google.com/mail/?view=cm&fs=1&to="+encodeURIComponent(t)+"&su="+encodeURIComponent("Civic issues report ("+(R.length+Q.length)+")")+"&body="+encodeURIComponent(body);n.textContent="Gmail should open in a new tab. Press Send there."};
+ $("#sc2").onclick=()=>{const n=$("#sn2");try{navigator.clipboard.writeText(allText()).then(()=>n.textContent="Copied all issues.",()=>n.textContent="Copy is blocked here. Long-press the list to copy.")}catch(e){n.textContent="Copy is blocked here."}}}
+/* ---------- init ---------- */
+function demoImg(cat){let b;
+ if(cat==="Broken road")b='<rect width="120" height="120" fill="#cfe8ff"/><rect y="55" width="120" height="65" fill="#5b5f66"/><path d="M0 85h120" stroke="#f5d442" stroke-width="3" stroke-dasharray="14 10"/><ellipse cx="60" cy="98" rx="30" ry="10" fill="#26282c"/><path d="M40 92l-8-6M80 94l10-7M60 88l2-8" stroke="#26282c" stroke-width="2"/>';
+ else if(cat==="Water leak")b='<rect width="120" height="120" fill="#e8f1e4"/><rect y="70" width="120" height="50" fill="#a08a6a"/><rect x="10" y="40" width="70" height="12" rx="6" fill="#8b949e"/><circle cx="80" cy="46" r="7" fill="#6b747d"/><path d="M84 54c-6 10-6 18 0 18s6-8 0-18z" fill="#3aa0ff"/><ellipse cx="86" cy="90" rx="26" ry="8" fill="#3aa0ff" opacity=".8"/>';
+ else if(cat==="Illegal dumping")b='<rect width="120" height="120" fill="#dfe9d2"/><rect y="80" width="120" height="40" fill="#8d7b5c"/><rect y="30" width="120" height="50" fill="#b9b2a4"/><circle cx="35" cy="82" r="18" fill="#2f3b2f"/><circle cx="62" cy="88" r="16" fill="#3d3d45"/><circle cx="85" cy="80" r="17" fill="#4d5a3a"/><rect x="50" y="66" width="20" height="12" fill="#c9a66b"/>';
+ else if(cat==="Power fault")b='<rect width="120" height="120" fill="#2b3350"/><rect x="56" y="20" width="8" height="100" fill="#6b5a45"/><rect x="30" y="30" width="60" height="6" fill="#6b5a45"/><path d="M62 44l-12 22h10l-8 24 22-30h-11l9-16z" fill="#ffd43b"/>';
+ else if(cat==="Fire or accident")b='<rect width="120" height="120" fill="#3a2a2a"/><path d="M60 20c10 20 30 30 25 55-4 20-46 20-50 0-4-20 16-25 25-55z" fill="#ff7a1a"/><path d="M60 50c6 12 16 16 12 32-3 10-25 10-24 0 1-10 8-14 12-32z" fill="#ffd43b"/>';
+ else b='<rect width="120" height="120" fill="#e5e5e5"/><circle cx="60" cy="60" r="24" fill="#9ca3af"/>';
+ return "data:image/svg+xml;utf8,"+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">'+b+'</svg>')}
+function demoAll(){demo();N=["+920000000001","+920000000002","+910000000003","+880000000004"];sv("is_nums",N);
+ NA=[{name:"Sample Gram Panchayat office",type:"Gram Panchayat",phone:"",email:"demo-panchayat@example.com",demo:1,dx:.006,dy:.009,lat:null,lng:null},
+ {name:"Sample Municipality office",type:"Municipality",phone:"",email:"demo-municipality@example.com",demo:1,dx:.021,dy:-.014,lat:null,lng:null},
+ {name:"Sample Police station",type:"Police station",phone:"",email:"demo-police@example.com",demo:1,dx:-.012,dy:.018,lat:null,lng:null},
+ {name:"Sample Water board office",type:"Water board",phone:"",email:"demo-water@example.com",demo:1,dx:.03,dy:.011,lat:null,lng:null}];
+ sv("is_auth",NA);try{localStorage.setItem("is_demo","1")}catch(e){}render()}
+R.forEach(r=>{if(/^D\d/.test(r.id)&&r.th&&r.th.indexOf("image/gif")>0)r.th=demoImg(r.cat)});sv("is_reports",R);
+let df=null;try{df=localStorage.getItem("is_demo")}catch(e){}
+if(!df&&!R.length)demoAll();
+render();$("#off").hidden=navigator.onLine;
+(async()=>{try{if(window.claude&&claude.use){sampleFn=await claude.use("sample");if(sampleFn){const l=await sampleFn.limits().catch(()=>null);canImg=!!(l&&l.images)}}}catch(e){sampleFn=null}})();
+</script></body></html>
